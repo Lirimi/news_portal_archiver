@@ -3,7 +3,7 @@ const TelegrafiSelector = ".aktuale-widget .row a:not([class])";
 
 import puppeteer from "puppeteer";
 
-export const getImages = (async () => {
+const getInfo = async (pageToVisit) => {
   const browser = await puppeteer.launch({
     headless: true,
   });
@@ -14,7 +14,7 @@ export const getImages = (async () => {
   );
   await page.setDefaultNavigationTimeout(60000);
 
-  await page.goto("https://www.telegrafi.com/lajme");
+  await page.goto(pageToVisit);
   await page.setViewport({
     width: 1200,
     height: 800,
@@ -46,15 +46,13 @@ export const getImages = (async () => {
 
       return telegrafiScrappedData;
     }, TelegrafiSelector);
-    console.log("Lirim");
-    console.log(data);
 
     return data;
   } catch (e) {
     console.log(e);
   }
   await browser.close();
-})();
+};
 
 async function autoScroll(page) {
   await page.evaluate(async () => {
@@ -74,4 +72,11 @@ async function autoScroll(page) {
       }, 100);
     });
   });
+}
+
+export const telegrafiInfo = async () => {
+  const [lajme, bote] = await Promise.all([getInfo('https://telegrafi.com/lajme'), getInfo('https://telegrafi.com/bote')]);
+
+  return [lajme, bote]
+
 }

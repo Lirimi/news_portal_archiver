@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "firebase": "^9.1.1",
+    "node-cron": "^3.0.0",
     "puppeteer": "^10.4.0"
   },
   "type": "module"
